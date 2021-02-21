@@ -112,7 +112,7 @@ def get_reverse(sequence):
     >>> get_reverse('AUGC')
     'CGUA'
     """
-    sequence.upper()
+    sequence = sequence.upper()
     original_list = list(sequence)
     original_list.reverse()
     reverse = "".join(original_list)
