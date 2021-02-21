@@ -76,7 +76,105 @@ def get_all_translations(rna_sequence, genetic_code):
         A list of strings; each string is an sequence of amino acids encoded by
         `rna_sequence`.
     """
-    pass
+    aa_list = []
+    reading_frame_1_string = rna_sequence
+    reading_frame_2_string = rna_sequence[1:]
+    reading_frame_3_string = rna_sequence[2:]
+    reading_frames_tuple = (reading_frame_1_string, reading_frame_2_string, reading_frame_3_string)
+    for x in range(3):
+        rf = reading_frames_tuple[x]
+        rf_upper = rf.upper()
+        codon_list = []
+        y = 0
+        while y + 2 < len(rf_upper):
+            triplet = rf_upper[y] + rf_upper[y+1] + rf_upper[y+2]
+            codon_list.append(triplet)
+            y = y + 3
+        for number in range(len(codon_list)):
+            if genetic_code[codon_list[number]] == "M":
+                z = number
+                aa_seq = ""
+                while z < len(codon_list) and genetic_code[codon_list[z]] != "*":
+                    aa_seq = aa_seq + genetic_code[codon_list[z]]
+                    z = z + 1
+                aa_list.append(aa_seq)
+    return aa_list
+
+#OLD DOES NOT WORK
+#make your sequence uppercase    
+#   rna_sequence = rna_sequence.upper()
+#split your sequence into a list where each nucleotide is a separate element
+#   rna_list = list(rna_sequence)
+#create a variable x = 0, then create the object rf1, and turn it into an empty list (rf1_list)
+#   x = 0
+#   rf1 = ""
+#   rf1_list = list(rf1)
+#create a while loop that will return a list of nucleotide triplets in reading frame 1 (rf1_list)
+#   while x + 2 < len(rna_list):
+#       triplet = rna_list[x] + rna_list[x+1] + rna_list[x+2]
+#       rf1_list.append(triplet)
+#       x = x + 3
+#do the same thing for reading frame 2
+#   rf2 = ""
+#   rf2_list = list(rf2)
+#   y = 1
+#   while y + 2 < len(rna_list):
+#       triplet = rna_list[y] + rna_list[y+1] + rna_list[y+2]
+#       rf2_list.append(triplet)
+#       y = y + 3
+#and reading frame 3
+#   rf3 = ""
+#   rf3_list = list(rf3)
+#   z = 2
+#   while z + 2 < len(rna_list):
+#       triplet = rna_list[z] + rna_list[z+1] + rna_list[z+2]
+#       rf3_list.append(triplet)
+#       z = z + 3
+#everything up to here works
+#for every codon in your reading frame 1 list, cycle through. if the codon codes for a stop codon, break the loop without adding a stop codon to your aa sequence.
+#otherwise, add the appropriate amino acid for your sequence to the string "new1"
+#   new1 = ""
+#   for elem in rf1_list:
+#       new1 = new1 + genetic_code[elem]
+#take the string new1 and turn it into a tuple, where each amino acid is an item in the tuple.
+#   frame1_tup = tuple(new1)
+#create an empty variable k, then turn it into a list called frame1_aa_list
+#   k = ""
+#   frame1_aa_list = list(k)
+#create a for loop that iterates the same number of times as the number of amino acids in your tuple
+#if the index of frame1_tup at that particular number is "M", create a new variable d
+#d is a string that contains the joined characters from M onwards, until the end of your amino acid tuple
+#then, append d to your amino acid list for reading frame 1, and then make d an empty string again
+#if the index of frame1_tup is NOT M, return and start over for the next num
+#   for num in range(len(frame1_tup)):
+#       if frame1_tup[num] == "M":
+#           d = "".join(frame1_tup[num:])
+#           frame1_aa_list.append(d)
+#           d = ""
+#   new2 = ""
+#   for elem in rf2_list:
+#       new2 = new2 + genetic_code[elem]
+#   frame2_tup = tuple(new2)
+#   m = ""
+#   frame2_aa_list = list(m)
+#   for num in range(len(frame2_tup)):
+#       if frame2_tup[num] == "M":
+#           e = "".join(frame2_tup[num:])
+#           frame2_aa_list.append(e)
+#           e = ""
+#   new3 = ""
+#   for elem in rf3_list:
+#       new3 = new3 + genetic_code[elem]
+#   frame3_tup = tuple(new3)
+#   n = ""
+#   frame3_aa_list = list(n)
+#   for num in range(len(frame3_tup)):
+#       if frame2_tup[num] == "M":
+#           f = "".join(frame3_tup[num:])
+#           frame3_aa_list.append(f)
+#           f = ""
+#   all_aa = frame1_aa_list + frame2_aa_list + frame3_aa_list
+#   return all_aa
 
 def get_reverse(sequence):
     """Reverse orientation of `sequence`.
